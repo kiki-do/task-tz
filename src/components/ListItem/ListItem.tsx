@@ -2,10 +2,13 @@ import type { FC } from "react";
 import classes from "./ListItem.module.scss";
 
 export interface ListItemProps {
+	id: number;
 	name: string;
 	surname: string;
 	avatar: string;
 	hobby: string;
+	removeHandle: (id: number) => void;
+	toggleIsOpen: (id: number) => void;
 }
 
 export interface ListItemComponent extends FC<ListItemProps> {}
@@ -15,7 +18,18 @@ export const ListItem: ListItemComponent = ({
 	surname,
 	avatar,
 	hobby,
+	id,
+	removeHandle,
+	toggleIsOpen,
 }) => {
+	const onRemove = () => {
+		removeHandle(id);
+	};
+
+	const onToggle = () => {
+		toggleIsOpen(id);
+	};
+
 	return (
 		<div className={classes.wrapper}>
 			<img src={avatar} alt="#" />
@@ -24,6 +38,14 @@ export const ListItem: ListItemComponent = ({
 				<h2 className={classes.surname}>{surname}</h2>
 			</div>
 			<span className={classes.hobby}>{hobby}</span>
+			<div className={classes.buttons}>
+				<button className={classes.button} onClick={onToggle}>
+					Edit
+				</button>
+				<button className={classes.button} onClick={onRemove}>
+					Delete
+				</button>
+			</div>
 		</div>
 	);
 };

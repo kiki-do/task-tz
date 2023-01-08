@@ -1,7 +1,15 @@
+@import "/src/assets/style/palette.scss";
+
 .wrapper {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 40px;
-	justify-content: center;
-	align-self: center;
+	.content {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+		justify-content: center;
+		align-self: center;
+	}
+
+	.title {
+		color: $list_title;
+	}
 }

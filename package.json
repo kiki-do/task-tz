@@ -1,19 +1,17 @@
 {
 	"name": "takeoff-staff",
 	"private": true,
-	"homepage": "https://github.com/kiki-do/task-tz.git",
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"preview": "vite preview",
-		"deploy": "gh-pages -d build",
-		"predeploy": "npm run build"
+		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.1",
 		"axios": "^1.2.2",
+		"clsx": "^1.2.1",
 		"gh-pages": "^4.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

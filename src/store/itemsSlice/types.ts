@@ -9,4 +9,5 @@ export type ItemsType = {
 	name: string;
 	surname: string;
 	hobby: string;
+	isOpen: boolean;
 };

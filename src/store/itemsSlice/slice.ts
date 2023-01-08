@@ -11,7 +11,42 @@ const initialState: IItems = {
 export const itemsSlice = createSlice({
 	name: "items",
 	initialState,
-	reducers: {},
+	reducers: {
+		addUser: (state, action: PayloadAction<ItemsType>) => {
+			state.items.push(action.payload);
+		},
+
+		removeUser: (state, action: PayloadAction<number>) => {
+			state.items = state.items.filter(
+				(item: ItemsType) => item.id !== action.payload
+			);
+		},
+
+		updateUser: (
+			state,
+			action: PayloadAction<
+				Pick<ItemsType, "id" | "name" | "hobby" | "isOpen" | "surname">
+			>
+		) => {
+			state.items.map((item: ItemsType) => {
+				if (item.id === action.payload.id) {
+					item.name = action.payload.name;
+					item.surname = action.payload.surname;
+					item.hobby = action.payload.hobby;
+					item.isOpen = !item.isOpen;
+				}
+			});
+		},
+
+		openModal: (state, action: PayloadAction<number>) => {
+			const index = state.items.find(
+				(item: ItemsType) => item.id === action.payload
+			);
+			if (index) {
+				index.isOpen = !index.isOpen;
+			}
+		},
+	},
 
 	extraReducers: builder => {
 		builder.addCase(fetchItems.pending, state => {
@@ -32,5 +67,8 @@ export const itemsSlice = createSlice({
 		});
 	},
 });
+
+export const { addUser, removeUser, updateUser, openModal } =
+	itemsSlice.actions;
 
 export default itemsSlice.reducer;

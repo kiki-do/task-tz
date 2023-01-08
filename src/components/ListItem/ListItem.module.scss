@@ -23,4 +23,29 @@
 		font-size: 16px;
 		font-weight: 600;
 	}
+
+	.buttons {
+		margin-bottom: 10px;
+
+		.button {
+			margin-left: 10px;
+			background: $form_button;
+			border: 0;
+			outline: 0;
+			padding: 10px 20px;
+			color: $white;
+			border-radius: 5px;
+			font-size: 15px;
+			font-weight: 600;
+
+			&:hover {
+				box-shadow: $form_shadow;
+				transition: 0.5s all ease;
+			}
+
+			&:active {
+				box-shadow: none;
+			}
+		}
+	}
 }

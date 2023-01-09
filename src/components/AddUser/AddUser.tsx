@@ -1,18 +1,48 @@
-import { useState } from "react";
-import type { FC, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
+import type { FC, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import classes from "./AddUser.module.scss";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import { addUser } from "../../store/itemsSlice/slice";
 
-export const AddUser: FC = () => {
+export interface AddUserProps {
+	nameError: string;
+	setNameError: Dispatch<SetStateAction<string>>;
+	surnameError: string;
+	setSurnameError: Dispatch<SetStateAction<string>>;
+	hobbyError: string;
+	setHobbyError: Dispatch<SetStateAction<string>>;
+}
+
+export interface AddUserComponent extends FC<AddUserProps> {}
+
+export const AddUser: AddUserComponent = ({
+	nameError,
+	setNameError,
+	surnameError,
+	setSurnameError,
+	hobbyError,
+	setHobbyError,
+}) => {
 	const dispatch = useAppDispatch();
 	const [newName, setNewName] = useState<string>("");
 	const [newSurname, setNewSurname] = useState<string>("");
 	const [newHobby, setNewHobby] = useState<string>("");
 
+	const [valid, setValid] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (nameError || surnameError || hobbyError) setValid(false);
+		else setValid(true);
+	}, [nameError, surnameError, hobbyError]);
+
 	const handleAddUser = async () => {
-		if (newName || newSurname || newHobby) {
+		if (
+			(newName || newSurname || newHobby) &&
+			nameError.length === 0 &&
+			surnameError.length === 0 &&
+			hobbyError.length === 0
+		) {
 			dispatch(
 				addUser({
 					id: Date.now(),
@@ -31,16 +61,35 @@ export const AddUser: FC = () => {
 		}
 	};
 
-	const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
+	/*Валидация каждого инпута через регулярные выражения */
+	const nameValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setNewName(event.target.value);
+		const regNameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regNameValidate.test(String(event.target.value).toLowerCase())) {
+			setNameError("Неправильно ведено имя!");
+		} else {
+			setNameError("");
+		}
 	};
 
-	const onChangeSurname = (event: ChangeEvent<HTMLInputElement>) => {
+	const surnameValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setNewSurname(event.target.value);
+		const regSurnameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regSurnameValidate.test(String(event.target.value).toLowerCase())) {
+			setSurnameError("Неправильно ведена фамилия!");
+		} else {
+			setSurnameError("");
+		}
 	};
 
-	const onChangeHobby = (event: ChangeEvent<HTMLInputElement>) => {
+	const hobbyValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setNewHobby(event.target.value);
+		const regHobbyValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regHobbyValidate.test(String(event.target.value).toLowerCase())) {
+			setHobbyError("Неправильно ведено хобби");
+		} else {
+			setHobbyError("");
+		}
 	};
 
 	return (
@@ -50,10 +99,10 @@ export const AddUser: FC = () => {
 				<form className={classes.form}>
 					<div className={classes.name}>
 						<label htmlFor="">Имя: </label>
-
+						{nameError && <div className={classes.validate}>{nameError}</div>}
 						<input
 							value={newName}
-							onChange={onChangeName}
+							onChange={nameValidate}
 							type="text"
 							required
 							name="name"
@@ -62,9 +111,12 @@ export const AddUser: FC = () => {
 					</div>
 					<div className={classes.surname}>
 						<label htmlFor="">Фамилия: </label>
+						{surnameError && (
+							<div className={classes.validate}>{surnameError}</div>
+						)}
 						<input
 							value={newSurname}
-							onChange={onChangeSurname}
+							onChange={surnameValidate}
 							type="text"
 							required
 							name="surname"
@@ -73,16 +125,21 @@ export const AddUser: FC = () => {
 					</div>
 					<div className={classes.hobby}>
 						<label htmlFor="">Хобби: </label>
+						{hobbyError && <div className={classes.validate}>{hobbyError}</div>}
 						<input
 							value={newHobby}
-							onChange={onChangeHobby}
+							onChange={hobbyValidate}
 							type="text"
 							required
 							name="hobby"
 							placeholder="Введите хобби..."
 						/>
 					</div>
-					<button onClick={handleAddUser} className={classes.button}>
+					<button
+						disabled={!valid}
+						onClick={handleAddUser}
+						className={classes.button}
+					>
 						Добавить контакт
 					</button>
 				</form>

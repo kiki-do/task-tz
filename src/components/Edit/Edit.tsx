@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { FC, ChangeEvent } from "react";
+import type { FC, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import classes from "./Edit.module.scss";
 import clsx from "clsx";
@@ -13,6 +13,12 @@ export interface EditProps {
 	surname: string;
 	toggleIsOpen: (id: number) => void;
 	id: number;
+	nameError: string;
+	setNameError: Dispatch<SetStateAction<string>>;
+	surnameError: string;
+	setSurnameError: Dispatch<SetStateAction<string>>;
+	hobbyError: string;
+	setHobbyError: Dispatch<SetStateAction<string>>;
 }
 
 export interface EditComponent extends FC<EditProps> {}
@@ -24,16 +30,18 @@ export const Edit: EditComponent = ({
 	name,
 	surname,
 	hobby,
+	nameError,
+	setNameError,
+	surnameError,
+	setSurnameError,
+	hobbyError,
+	setHobbyError,
 }) => {
 	const dispatch = useAppDispatch();
 
 	const [editName, setEditName] = useState<string>("");
 	const [editSurname, setEditSurname] = useState<string>("");
 	const [editHobby, setEditHobby] = useState<string>("");
-
-	const [nameError, setNameError] = useState<string>("");
-	const [surnameError, setSurnameError] = useState<string>("");
-	const [hobbyError, setHobbyError] = useState<string>("");
 
 	const editHandle = () => {
 		let constName = editName;
@@ -48,7 +56,6 @@ export const Edit: EditComponent = ({
 			/* Костыльный способ чтобы контакт измсенялся по элементно 
 			(при изменении только одного элемента) другой оставался таким же, 
 			а не изменялся на пустой локальный стейт */
-
 			if (constName.length === 0) {
 				constName = name;
 				setEditName(name);

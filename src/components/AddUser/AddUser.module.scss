@@ -20,6 +20,11 @@
 		padding: 40px;
 		border-radius: 20px;
 
+		.validate {
+			color: $red;
+			font-weight: 600;
+		}
+
 		.name,
 		.surname,
 		.hobby {
@@ -58,7 +63,15 @@
 
 			&:hover {
 				box-shadow: $form_shadow;
+				cursor: pointer;
 				transition: 0.5s;
+			}
+
+			&:disabled {
+				background-color: $button_disabled;
+				color: $list_name;
+				box-shadow: none;
+				cursor: default;
 			}
 		}
 	}

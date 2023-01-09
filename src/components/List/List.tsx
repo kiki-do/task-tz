@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { FC, useState } from "react";
 import { useEffect } from "react";
 
 import { ListItem } from "../ListItem/ListItem";
@@ -16,6 +16,11 @@ import { AddUser } from "../AddUser/AddUser";
 export const List = () => {
 	const items = useAppSelector(itemsSelector);
 	const dispatch = useAppDispatch();
+
+	// Переиспользуемое состояние
+	const [nameError, setNameError] = useState<string>("");
+	const [surnameError, setSurnameError] = useState<string>("");
+	const [hobbyError, setHobbyError] = useState<string>("");
 
 	useEffect(() => {
 		return () => {
@@ -53,12 +58,25 @@ export const List = () => {
 									hobby={hobby}
 									isOpen={isOpen}
 									toggleIsOpen={toggleIsOpen}
+									nameError={nameError}
+									surnameError={surnameError}
+									hobbyError={hobbyError}
+									setNameError={setNameError}
+									setSurnameError={setSurnameError}
+									setHobbyError={setHobbyError}
 								/>
 							</div>
 						)
 					)}
 			</div>
-			<AddUser />
+			<AddUser
+				nameError={nameError}
+				surnameError={surnameError}
+				hobbyError={hobbyError}
+				setNameError={setNameError}
+				setSurnameError={setSurnameError}
+				setHobbyError={setHobbyError}
+			/>
 		</div>
 	);
 };

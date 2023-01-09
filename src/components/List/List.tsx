@@ -58,7 +58,7 @@ export const List = () => {
 						)
 					)}
 			</div>
-			<AddUser items={items} />
+			<AddUser />
 		</div>
 	);
 };

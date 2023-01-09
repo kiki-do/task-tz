@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { FC, ChangeEvent } from "react";
 
 import classes from "./Edit.module.scss";
@@ -31,71 +31,94 @@ export const Edit: EditComponent = ({
 	const [editSurname, setEditSurname] = useState<string>("");
 	const [editHobby, setEditHobby] = useState<string>("");
 
-	const [nameError, setNameError] = useState<string>(
-		"Фамилия не должна содержать цифры и символы! Убедитесь что введенное вами фамилия введена верно"
-	);
-	const [surnameError, setSurnameError] = useState<string>(
-		"Фамилия не должна содержать цифры и символы! Убедитесь что введенное вами фамилия введена верно"
-	);
-	const [hobbyError, setHobbyError] = useState<string>(
-		"Сообщение должно быть обязатлено заполнено"
-	);
+	const [nameError, setNameError] = useState<string>("");
+	const [surnameError, setSurnameError] = useState<string>("");
+	const [hobbyError, setHobbyError] = useState<string>("");
 
 	const editHandle = () => {
-		if (editName || editSurname || editHobby) {
-			if (editName == "") {
+		let constName = editName;
+		let constSurname = editSurname;
+		let constHobby = editHobby;
+		if (
+			(editName || editSurname || editHobby) &&
+			nameError.length === 0 &&
+			surnameError.length === 0 &&
+			hobbyError.length === 0
+		) {
+			/* Костыльный способ чтобы контакт измсенялся по элементно 
+			(при изменении только одного элемента) другой оставался таким же, 
+			а не изменялся на пустой локальный стейт */
+
+			if (constName.length === 0) {
+				constName = name;
 				setEditName(name);
-				console.log(editName);
 			}
 
-			if (editSurname.length === 0) {
+			if (editSurname.length == 0) {
+				constSurname = surname;
 				setEditSurname(surname);
 			}
 
 			if (editHobby.length === 0) {
+				constHobby = hobby;
 				setEditHobby(hobby);
 			}
 			dispatch(
 				updateUser({
 					id,
-					name: editName,
-					surname: editSurname,
-					hobby: editHobby,
+					name: constName,
+					surname: constSurname,
+					hobby: constHobby,
 					isOpen: false,
 				})
 			);
+			setEditName("");
+			setEditSurname("");
+			setEditHobby("");
 		} else if (
-			editName.length === 0 ||
-			editSurname.length === 0 ||
-			editHobby.length === 0
+			nameError.length !== 0 &&
+			surnameError.length !== 0 &&
+			hobbyError.length !== 0
 		) {
+			setEditName(constName);
+			setEditSurname(constSurname);
+			setEditHobby(constHobby);
 		}
-	};
-
-	// useEffect(() => {
-	// 	if (editName.length === 0) {
-	// 		setEditName(name);
-	// 	} else if (editSurname.length === 0) {
-	// 		setEditSurname(surname);
-	// 	} else if (editHobby.length === 0) {
-	// 		setEditHobby(hobby);
-	// 	}
-	// }, [editName, editSurname, editHobby]);
-
-	const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
-		setEditName(event.target.value);
-	};
-
-	const onChangeSurname = (event: ChangeEvent<HTMLInputElement>) => {
-		setEditSurname(event.target.value);
-	};
-
-	const onChangeHobby = (event: ChangeEvent<HTMLInputElement>) => {
-		setEditHobby(event.target.value);
 	};
 
 	const onToggle = () => {
 		toggleIsOpen(id);
+	};
+
+	/*Валидация каждого инпута через регулярные выражения */
+	const nameValidate = (event: ChangeEvent<HTMLInputElement>) => {
+		setEditName(event.target.value);
+		const regNameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regNameValidate.test(String(event.target.value).toLowerCase())) {
+			setNameError("Неправильно ведено имя!");
+		} else {
+			setNameError("");
+		}
+	};
+
+	const surnameValidate = (event: ChangeEvent<HTMLInputElement>) => {
+		setEditSurname(event.target.value);
+		const regSurnameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regSurnameValidate.test(String(event.target.value).toLowerCase())) {
+			setSurnameError("Неправильно ведена фамилия!");
+		} else {
+			setSurnameError("");
+		}
+	};
+
+	const hobbyValidate = (event: ChangeEvent<HTMLInputElement>) => {
+		setEditHobby(event.target.value);
+		const regHobbyValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+		if (!regHobbyValidate.test(String(event.target.value).toLowerCase())) {
+			setHobbyError("Неправильно ведено хобби");
+		} else {
+			setHobbyError("");
+		}
 	};
 
 	const wrapperClassName = useMemo(
@@ -117,34 +140,40 @@ export const Edit: EditComponent = ({
 				</button>
 
 				<form className={classes.form}>
+					<h2 className={classes.title}>Измените контакт</h2>
 					<div className={classes.name}>
 						<label>Имя</label>
+						{nameError && <div className={classes.validate}>{nameError}</div>}
 						<input
 							value={editName}
 							type="text"
 							placeholder="Измените имя..."
 							name="name"
-							onChange={onChangeName}
+							onChange={nameValidate}
 						/>
 					</div>
 					<div className={classes.surname}>
+						{surnameError && (
+							<div className={classes.validate}>{surnameError}</div>
+						)}
 						<label>Фамилия</label>
 						<input
 							value={editSurname}
 							type="text"
 							name="suurname"
 							placeholder="Измените фамилию..."
-							onChange={onChangeSurname}
+							onChange={surnameValidate}
 						/>
 					</div>
 					<div className={classes.hobby}>
 						<label>Хобби</label>
+						{hobbyError && <div className={classes.validate}>{hobbyError}</div>}
 						<input
 							value={editHobby}
 							type="text"
 							name="hobby"
 							placeholder="Измените хобби..."
-							onChange={onChangeHobby}
+							onChange={hobbyValidate}
 						/>
 					</div>
 				</form>

@@ -1,17 +1,11 @@
 import { useState } from "react";
 import type { FC, ChangeEvent } from "react";
-import { ItemsType } from "../../store/itemsSlice/types";
+
 import classes from "./AddUser.module.scss";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import { addUser } from "../../store/itemsSlice/slice";
 
-export interface AddUserProps {
-	items: ItemsType[];
-}
-
-export interface AddUserComponent extends FC<AddUserProps> {}
-
-export const AddUser: AddUserComponent = ({ items }) => {
+export const AddUser: FC = () => {
 	const dispatch = useAppDispatch();
 	const [newName, setNewName] = useState<string>("");
 	const [newSurname, setNewSurname] = useState<string>("");
@@ -56,6 +50,7 @@ export const AddUser: AddUserComponent = ({ items }) => {
 				<form className={classes.form}>
 					<div className={classes.name}>
 						<label htmlFor="">Имя: </label>
+
 						<input
 							value={newName}
 							onChange={onChangeName}

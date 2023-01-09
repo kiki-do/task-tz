@@ -18,8 +18,10 @@ export const AuthForm: AuthFormComponent = ({
 	password,
 	setSuccess,
 }) => {
-	const [name, setName] = useState("");
-	const [pass, setPass] = useState("");
+	const [name, setName] = useState<string>("");
+	const [pass, setPass] = useState<string>("");
+
+	const [error, setError] = useState<string>("");
 
 	const dispatch = useAppDispatch();
 
@@ -41,6 +43,8 @@ export const AuthForm: AuthFormComponent = ({
 		event.preventDefault();
 		if (name === login && pass === password) {
 			setSuccess(true);
+		} else {
+			setError("Неправильно введен логин или пароль!");
 		}
 	};
 
@@ -71,6 +75,7 @@ export const AuthForm: AuthFormComponent = ({
 							placeholder="Введите пароль..."
 						/>
 					</div>
+					{error && <div className={classes.validate}>{error}</div>}
 					<button className={classes.button}>Войти</button>
 				</form>
 			</div>

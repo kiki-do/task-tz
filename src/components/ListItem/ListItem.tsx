@@ -34,10 +34,10 @@ export const ListItem: ListItemComponent = ({
 		<div className={classes.wrapper}>
 			<img src={avatar} alt="#" />
 			<div>
-				<h2 className={classes.name}>{name}</h2>
-				<h2 className={classes.surname}>{surname}</h2>
+				<h2 className={classes.name}>{name || "Не указано"}</h2>
+				<h2 className={classes.surname}>{surname || "Не указано"}</h2>
 			</div>
-			<span className={classes.hobby}>{hobby}</span>
+			<span className={classes.hobby}>{hobby || "Не указано"}</span>
 			<div className={classes.buttons}>
 				<button className={classes.button} onClick={onToggle}>
 					Edit

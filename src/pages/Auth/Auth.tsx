@@ -12,11 +12,12 @@ export const Auth: FC = () => {
 
 	return (
 		<div className={classes.wrapper}>
-			{!success ? (
+			{/* {!success ? (
 				<AuthForm login={login} password={password} setSuccess={setSuccess} />
 			) : (
 				<List />
-			)}
+			)} */}
+			<List />
 		</div>
 	);
 };

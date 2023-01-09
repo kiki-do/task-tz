@@ -37,6 +37,7 @@
 
 		&:hover {
 			box-shadow: $form_shadow;
+			cursor: pointer;
 			transition: 0.5s all ease;
 		}
 
@@ -71,9 +72,7 @@
 			color: $white;
 		}
 
-		.name,
-		.surname,
-		.hobby {
+		.name {
 			display: flex;
 			flex-direction: column;
 			text-align: left;
@@ -81,19 +80,6 @@
 			& label {
 				color: $white;
 				font-weight: 600;
-			}
-		}
-
-		& input {
-			padding: 5px 40px;
-			font-size: 15px;
-			border-radius: 2px;
-			outline: none;
-			border: none;
-
-			&:focus {
-				box-shadow: $form_shadow;
-				transition: 0.5s;
 			}
 		}
 	}

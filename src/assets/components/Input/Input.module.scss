@@ -1,0 +1,14 @@
+@import "/src/assets/style/palette.scss";
+
+.wrapper {
+	padding: 5px 40px;
+	font-size: 15px;
+	border-radius: 2px;
+	outline: none;
+	border: none;
+
+	&:focus {
+		box-shadow: $form_shadow;
+		transition: 0.5s;
+	}
+}

@@ -1,6 +1,12 @@
 @import "/src/assets/style/palette.scss";
 
 .wrapper {
+	position: relative;
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.content {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);

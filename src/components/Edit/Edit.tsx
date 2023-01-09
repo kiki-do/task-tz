@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { FC, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import classes from "./Edit.module.scss";
 import clsx from "clsx";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import { updateUser } from "../../store/itemsSlice/slice";
+import { Input } from "../../assets/components/Input/Input";
 
 export interface EditProps {
 	isOpen: boolean;
@@ -19,6 +20,14 @@ export interface EditProps {
 	setSurnameError: Dispatch<SetStateAction<string>>;
 	hobbyError: string;
 	setHobbyError: Dispatch<SetStateAction<string>>;
+}
+
+export interface formType {
+	id: number;
+	error: string;
+	name: string;
+	handle: (event: ChangeEvent<HTMLInputElement>) => void;
+	value: string;
 }
 
 export interface EditComponent extends FC<EditProps> {}
@@ -100,9 +109,13 @@ export const Edit: EditComponent = ({
 	/*Валидация каждого инпута через регулярные выражения */
 	const nameValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setEditName(event.target.value);
-		const regNameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
-		if (!regNameValidate.test(String(event.target.value).toLowerCase())) {
-			setNameError("Неправильно ведено имя!");
+		if (editName.length !== 1) {
+			const regNameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+			if (!regNameValidate.test(event.target.value.toLowerCase())) {
+				setNameError("Неправильно ведено имя!");
+			} else {
+				setNameError("");
+			}
 		} else {
 			setNameError("");
 		}
@@ -110,9 +123,13 @@ export const Edit: EditComponent = ({
 
 	const surnameValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setEditSurname(event.target.value);
-		const regSurnameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
-		if (!regSurnameValidate.test(String(event.target.value).toLowerCase())) {
-			setSurnameError("Неправильно ведена фамилия!");
+		if (editSurname.length !== 1) {
+			const regSurnameValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+			if (!regSurnameValidate.test(String(event.target.value).toLowerCase())) {
+				setSurnameError("Неправильно ведена фамилия!");
+			} else {
+				setSurnameError("");
+			}
 		} else {
 			setSurnameError("");
 		}
@@ -120,9 +137,13 @@ export const Edit: EditComponent = ({
 
 	const hobbyValidate = (event: ChangeEvent<HTMLInputElement>) => {
 		setEditHobby(event.target.value);
-		const regHobbyValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
-		if (!regHobbyValidate.test(String(event.target.value).toLowerCase())) {
-			setHobbyError("Неправильно ведено хобби");
+		if (editHobby.length !== 1) {
+			const regHobbyValidate = /^[a-zA-Zа-яёА-ЯЁ]+$/u;
+			if (!regHobbyValidate.test(String(event.target.value).toLowerCase())) {
+				setHobbyError("Неправильно ведено хобби");
+			} else {
+				setHobbyError("");
+			}
 		} else {
 			setHobbyError("");
 		}
@@ -136,6 +157,36 @@ export const Edit: EditComponent = ({
 		[isOpen]
 	);
 
+	const form = [
+		{
+			id: 1,
+			error: nameError,
+			value: editName,
+			name: "Имя",
+			handle: (event: ChangeEvent<HTMLInputElement>) => {
+				nameValidate(event);
+			},
+		},
+		{
+			id: 2,
+			error: surnameError,
+			value: editSurname,
+			name: "Фамилия",
+			handle: (event: ChangeEvent<HTMLInputElement>) => {
+				surnameValidate(event);
+			},
+		},
+		{
+			id: 3,
+			error: hobbyError,
+			value: editHobby,
+			name: "Хобби",
+			handle: (event: ChangeEvent<HTMLInputElement>) => {
+				hobbyValidate(event);
+			},
+		},
+	];
+
 	return (
 		<div className={wrapperClassName}>
 			<div
@@ -148,41 +199,13 @@ export const Edit: EditComponent = ({
 
 				<form className={classes.form}>
 					<h2 className={classes.title}>Измените контакт</h2>
-					<div className={classes.name}>
-						<label>Имя</label>
-						{nameError && <div className={classes.validate}>{nameError}</div>}
-						<input
-							value={editName}
-							type="text"
-							placeholder="Измените имя..."
-							name="name"
-							onChange={nameValidate}
-						/>
-					</div>
-					<div className={classes.surname}>
-						{surnameError && (
-							<div className={classes.validate}>{surnameError}</div>
-						)}
-						<label>Фамилия</label>
-						<input
-							value={editSurname}
-							type="text"
-							name="suurname"
-							placeholder="Измените фамилию..."
-							onChange={surnameValidate}
-						/>
-					</div>
-					<div className={classes.hobby}>
-						<label>Хобби</label>
-						{hobbyError && <div className={classes.validate}>{hobbyError}</div>}
-						<input
-							value={editHobby}
-							type="text"
-							name="hobby"
-							placeholder="Измените хобби..."
-							onChange={hobbyValidate}
-						/>
-					</div>
+					{form.map(({ id, handle, name, error, value }: formType) => (
+						<div key={id} className={classes.name}>
+							<label>{name}</label>
+							{error && <div className={classes.validate}>{error}</div>}
+							<Input value={value} onChange={handle} placeholder={name} />
+						</div>
+					))}
 				</form>
 				<button onClick={editHandle} className={classes.button}>
 					Изменить

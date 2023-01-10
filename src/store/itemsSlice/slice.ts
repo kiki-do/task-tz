@@ -66,13 +66,13 @@ export const itemsSlice = createSlice({
 		builder.addCase(
 			fetchItems.fulfilled,
 			(state, action: PayloadAction<ItemsType[]>) => {
-				state.status = "success";
 				state.items = action.payload;
+				state.status = "success";
 			}
 		);
 		builder.addCase(fetchItems.rejected, state => {
-			state.status = "error";
 			state.items = [];
+			state.status = "error";
 		});
 	},
 });

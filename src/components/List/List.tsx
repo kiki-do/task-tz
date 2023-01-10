@@ -13,8 +13,9 @@ import { openModal, removeUser, setSearch } from "../../store/itemsSlice/slice";
 import { Edit } from "../Edit/Edit";
 import { AddUser } from "../AddUser/AddUser";
 import { Search } from "../Search/Search";
+import { Skeleton } from "../../assets/components/Skeleton/Skeleton";
 
-export const List = () => {
+export const List: FC = () => {
 	const { items, search, status } = useAppSelector(itemsSelector);
 	const dispatch = useAppDispatch();
 
@@ -53,40 +54,44 @@ export const List = () => {
 				/>
 			</div>
 			<div className={classes.content}>
-				{items &&
-					items
-						.filter(
-							(item: ItemsType) =>
-								item.fullname.toLowerCase().includes(search.toLowerCase()) ||
-								item.hobby.toLowerCase().includes(search.toLowerCase())
-						)
-						.map(({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
-							<div key={id}>
-								<ListItem
-									id={id}
-									name={name}
-									avatar={avatar}
-									hobby={hobby}
-									surname={surname}
-									removeHandle={removeHandle}
-									toggleIsOpen={toggleIsOpen}
-								/>
-								<Edit
-									id={id}
-									name={name}
-									surname={surname}
-									hobby={hobby}
-									isOpen={isOpen}
-									toggleIsOpen={toggleIsOpen}
-									nameError={nameError}
-									surnameError={surnameError}
-									hobbyError={hobbyError}
-									setNameError={setNameError}
-									setSurnameError={setSurnameError}
-									setHobbyError={setHobbyError}
-								/>
-							</div>
-						))}
+				{items && status === "loading"
+					? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+					: items
+							.filter(
+								(item: ItemsType) =>
+									item.fullname.toLowerCase().includes(search.toLowerCase()) ||
+									item.hobby.toLowerCase().includes(search.toLowerCase())
+							)
+							.map(
+								({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
+									<div key={id}>
+										<ListItem
+											id={id}
+											name={name}
+											avatar={avatar}
+											hobby={hobby}
+											surname={surname}
+											removeHandle={removeHandle}
+											toggleIsOpen={toggleIsOpen}
+										/>
+
+										<Edit
+											id={id}
+											name={name}
+											surname={surname}
+											hobby={hobby}
+											isOpen={isOpen}
+											toggleIsOpen={toggleIsOpen}
+											nameError={nameError}
+											surnameError={surnameError}
+											hobbyError={hobbyError}
+											setNameError={setNameError}
+											setSurnameError={setSurnameError}
+											setHobbyError={setHobbyError}
+										/>
+									</div>
+								)
+							)}
 			</div>
 			<AddUser
 				nameError={nameError}

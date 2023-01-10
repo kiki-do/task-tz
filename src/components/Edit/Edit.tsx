@@ -33,6 +33,7 @@ export interface formType {
 
 export interface EditComponent extends FC<EditProps> {}
 
+/*Компонент изменения контакта */
 export const Edit: EditComponent = ({
 	isOpen = false,
 	toggleIsOpen,

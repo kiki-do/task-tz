@@ -14,6 +14,7 @@ export interface AuthFormProps {
 
 export interface AuthFormComponent extends FC<AuthFormProps> {}
 
+/*Компонент входа */
 export const AuthForm: AuthFormComponent = ({
 	login,
 	password,

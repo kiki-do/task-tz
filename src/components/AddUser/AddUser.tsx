@@ -17,6 +17,7 @@ export interface AddUserProps {
 
 export interface AddUserComponent extends FC<AddUserProps> {}
 
+/* Компонента добавления контакта */
 export const AddUser: AddUserComponent = ({
 	nameError,
 	setNameError,

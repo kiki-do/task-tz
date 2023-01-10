@@ -16,6 +16,7 @@ import { AddUser } from "../AddUser/AddUser";
 import { Search } from "../Search/Search";
 import { Skeleton } from "../../assets/components/Skeleton/Skeleton";
 
+/*Компонент списка контактов */
 export const List: FC = () => {
 	const { items, status }: IItems = useAppSelector(itemsSelector);
 

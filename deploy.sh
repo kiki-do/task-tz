@@ -24,6 +24,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:kiki-do/kiki-do.github.io.git main
 
 # if you are deploying to https://kiki-do.github.io/task-tz
-# git push -f git@github.com:kiki-do/<REPO>.git main:gh-pages
+# git push -f git@github.com:kiki-do/task-tz.git main:gh-pages
 
 cd -

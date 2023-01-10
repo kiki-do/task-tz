@@ -19,15 +19,6 @@ export const Search: SearchComponent = ({
 	setSearchValue,
 	searchHandle,
 }) => {
-	const searchRef = useRef<HTMLInputElement>();
-
-	// const removeSearch = () => {
-	// 	searchHandle("");
-	// 	setSearchValue("");
-	// 	searchRef.current?.focus();
-	// };
-	console.log(searchRef.current?.focus());
-
 	const searchDebounce = useCallback(
 		debounce((str: string) => {
 			searchHandle(str);

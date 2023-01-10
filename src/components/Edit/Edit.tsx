@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { FC, ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import classes from "./Edit.module.scss";
@@ -52,6 +52,7 @@ export const Edit: EditComponent = ({
 	const [editName, setEditName] = useState<string>("");
 	const [editSurname, setEditSurname] = useState<string>("");
 	const [editHobby, setEditHobby] = useState<string>("");
+	const nameRef = useRef<HTMLInputElement>(null);
 
 	const editHandle = () => {
 		let constName = editName;
@@ -70,6 +71,8 @@ export const Edit: EditComponent = ({
 				constName = name;
 				setEditName(name);
 			}
+
+			console.log(nameRef.current);
 
 			if (editSurname.length == 0) {
 				constSurname = surname;
@@ -195,9 +198,6 @@ export const Edit: EditComponent = ({
 				className={classes.content}
 				onClick={event => event.stopPropagation()}
 			>
-				{/* <button className={classes.button} onClick={onToggle}>
-					Закрыть
-				</button> */}
 				<Button className={classes.button} onClick={onToggle}>
 					Закрыть
 				</Button>
@@ -212,9 +212,7 @@ export const Edit: EditComponent = ({
 						</div>
 					))}
 				</form>
-				{/* <button onClick={editHandle} className={classes.button}>
-					Изменить
-				</button> */}
+
 				<Button className={classes.button} onClick={editHandle}>
 					Изменить
 				</Button>

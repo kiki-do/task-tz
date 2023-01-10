@@ -1,4 +1,9 @@
-import type { ChangeEventHandler, FC, HTMLAttributes } from "react";
+import type {
+	ChangeEventHandler,
+	FC,
+	HTMLAttributes,
+	MutableRefObject,
+} from "react";
 
 import classes from "./Input.module.scss";
 

@@ -2,10 +2,11 @@ import type { IItems, ItemsType } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchItems } from "../thunk/itemsThunk";
+import { getCartFromLS } from "../../assets/components/getItemFromLS/getItemFromLS";
 
 const initialState: IItems = {
-	items: [],
-	status: "loading",
+	items: getCartFromLS(),
+	status: "success",
 	search: "",
 };
 
@@ -15,6 +16,10 @@ export const itemsSlice = createSlice({
 	reducers: {
 		addUser: (state, action: PayloadAction<ItemsType>) => {
 			state.items.push(action.payload);
+		},
+
+		setItems: (state, action: PayloadAction<ItemsType[]>) => {
+			state.items = action.payload;
 		},
 
 		removeUser: (state, action: PayloadAction<number>) => {
@@ -57,27 +62,32 @@ export const itemsSlice = createSlice({
 		},
 	},
 
-	extraReducers: builder => {
-		builder.addCase(fetchItems.pending, state => {
-			state.status = "loading";
-			state.items = [];
-		});
+	// extraReducers: builder => {
+	// 	builder.addCase(fetchItems.pending, state => {
+	// 		state.status = "loading";
+	// 	});
 
-		builder.addCase(
-			fetchItems.fulfilled,
-			(state, action: PayloadAction<ItemsType[]>) => {
-				state.items = action.payload;
-				state.status = "success";
-			}
-		);
-		builder.addCase(fetchItems.rejected, state => {
-			state.items = [];
-			state.status = "error";
-		});
-	},
+	// 	builder.addCase(
+	// 		fetchItems.fulfilled,
+	// 		(state, action: PayloadAction<ItemsType[]>) => {
+	// 			state.items = action.payload;
+	// 			state.status = "success";
+	// 		}
+	// 	);
+	// 	builder.addCase(fetchItems.rejected, state => {
+	// 		state.items = [];
+	// 		state.status = "error";
+	// 	});
+	// },
 });
 
-export const { addUser, removeUser, updateUser, openModal, setSearch } =
-	itemsSlice.actions;
+export const {
+	addUser,
+	removeUser,
+	updateUser,
+	openModal,
+	setSearch,
+	setItems,
+} = itemsSlice.actions;
 
 export default itemsSlice.reducer;

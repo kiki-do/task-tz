@@ -1,10 +1,11 @@
-import { FC, useState } from "react";
+import { useRef, useState } from "react";
+import type { FC } from "react";
 import { useEffect } from "react";
 
 import { ListItem } from "../ListItem/ListItem";
 import { useAppSelector } from "../../assets/hooks/useAppSelector";
-import { itemsSelector } from "../../store/itemsSlice/selector";
-import { ItemsType } from "../../store/itemsSlice/types";
+import { itemsSelector, searchSelector } from "../../store/itemsSlice/selector";
+import { IItems, ItemsType } from "../../store/itemsSlice/types";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 
 import classes from "./List.module.scss";
@@ -16,9 +17,14 @@ import { Search } from "../Search/Search";
 import { Skeleton } from "../../assets/components/Skeleton/Skeleton";
 
 export const List: FC = () => {
-	const { items, search, status } = useAppSelector(itemsSelector);
+	const { items, status }: IItems = useAppSelector(itemsSelector);
+
+	// const items = useAppSelector(state => state.persistedReducer.items);
+	// const status: string = useAppSelector(itemsSelector);
+	const search = useAppSelector(searchSelector);
 	const dispatch = useAppDispatch();
 
+	const isMounted = useRef(false);
 	// Переиспользуемое состояние
 	const [nameError, setNameError] = useState<string>("");
 	const [surnameError, setSurnameError] = useState<string>("");
@@ -29,6 +35,14 @@ export const List: FC = () => {
 	const searchHandle = (str: string) => {
 		dispatch(setSearch(str));
 	};
+
+	useEffect(() => {
+		if (isMounted.current) {
+			const json = JSON.stringify(items);
+			localStorage.setItem("items", json);
+		}
+		isMounted.current = true;
+	}, [items]);
 
 	useEffect(() => {
 		return () => {
@@ -59,8 +73,10 @@ export const List: FC = () => {
 					: items
 							.filter(
 								(item: ItemsType) =>
-									item.fullname.toLowerCase().includes(search.toLowerCase()) ||
-									item.hobby.toLowerCase().includes(search.toLowerCase())
+									item.fullname
+										.toLowerCase()
+										.includes(searchValue.toLowerCase()) ||
+									item.hobby.toLowerCase().includes(searchValue.toLowerCase())
 							)
 							.map(
 								({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (

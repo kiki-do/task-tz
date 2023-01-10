@@ -41,8 +41,11 @@ export const Search: SearchComponent = ({
 	};
 
 	return (
-		<div className={classes.wrapper}>
-			<Input value={searchValue} placeholder="Поиск..." onChange={onChange} />
-		</div>
+		<Input
+			className={classes.wrapper}
+			value={searchValue}
+			placeholder="Поиск..."
+			onChange={onChange}
+		/>
 	);
 };

@@ -4,6 +4,7 @@ import type { FC, ChangeEvent, Dispatch, SetStateAction } from "react";
 import classes from "./AddUser.module.scss";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import { addUser } from "../../store/itemsSlice/slice";
+import { Button } from "../../assets/components/Button/Button";
 
 export interface AddUserProps {
 	nameError: string;
@@ -136,13 +137,9 @@ export const AddUser: AddUserComponent = ({
 							placeholder="Введите хобби..."
 						/>
 					</div>
-					<button
-						disabled={!valid}
-						onClick={handleAddUser}
-						className={classes.button}
-					>
+					<Button size="long" disabled={!valid} onClick={handleAddUser}>
 						Добавить контакт
-					</button>
+					</Button>
 				</form>
 			</div>
 		</div>

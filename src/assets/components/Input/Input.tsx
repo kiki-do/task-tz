@@ -1,23 +1,31 @@
-import type { ChangeEventHandler, FC } from "react";
+import type { ChangeEventHandler, FC, HTMLAttributes } from "react";
 
 import classes from "./Input.module.scss";
 
 export interface InputProps {
 	value: string;
 	onChange: ChangeEventHandler<HTMLInputElement>;
-	placeholder: string;
+	placeholder?: string | undefined;
+	className?: string | undefined;
 }
 
 export interface InputComponent extends FC<InputProps> {}
 
-export const Input: InputComponent = ({ value, onChange, placeholder }) => {
+export const Input: InputComponent = ({
+	value,
+	onChange,
+	placeholder,
+	className,
+}) => {
 	return (
-		<input
-			className={classes.wrapper}
-			type="text"
-			placeholder={placeholder}
-			value={value}
-			onChange={onChange}
-		/>
+		<div className={className}>
+			<input
+				className={classes.wrapper}
+				type="text"
+				placeholder={placeholder}
+				value={value}
+				onChange={onChange}
+			/>
+		</div>
 	);
 };

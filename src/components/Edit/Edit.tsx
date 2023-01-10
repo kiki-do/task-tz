@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import { updateUser } from "../../store/itemsSlice/slice";
 import { Input } from "../../assets/components/Input/Input";
+import { Button } from "../../assets/components/Button/Button";
 
 export interface EditProps {
 	isOpen: boolean;
@@ -194,9 +195,12 @@ export const Edit: EditComponent = ({
 				className={classes.content}
 				onClick={event => event.stopPropagation()}
 			>
-				<button className={classes.button} onClick={onToggle}>
+				{/* <button className={classes.button} onClick={onToggle}>
 					Закрыть
-				</button>
+				</button> */}
+				<Button className={classes.button} onClick={onToggle}>
+					Закрыть
+				</Button>
 
 				<form className={classes.form}>
 					<h2 className={classes.title}>Измените контакт</h2>
@@ -208,9 +212,12 @@ export const Edit: EditComponent = ({
 						</div>
 					))}
 				</form>
-				<button onClick={editHandle} className={classes.button}>
+				{/* <button onClick={editHandle} className={classes.button}>
 					Изменить
-				</button>
+				</button> */}
+				<Button className={classes.button} onClick={editHandle}>
+					Изменить
+				</Button>
 			</div>
 		</div>
 	);

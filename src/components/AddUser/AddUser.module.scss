@@ -50,29 +50,5 @@
 				transition: 0.5s;
 			}
 		}
-
-		.button {
-			border: 0;
-			outline: 0;
-			background-color: $form_button;
-			font-size: 15px;
-			font-weight: 600;
-			color: white;
-			padding: 10px 40px;
-			border-radius: 10px;
-
-			&:hover {
-				box-shadow: $form_shadow;
-				cursor: pointer;
-				transition: 0.5s;
-			}
-
-			&:disabled {
-				background-color: $button_disabled;
-				color: $list_name;
-				box-shadow: none;
-				cursor: default;
-			}
-		}
 	}
 }

@@ -47,19 +47,8 @@
 		}
 
 		.button {
-			border: 0;
-			outline: 0;
-			background-color: $form_button;
-			font-size: 15px;
-			font-weight: 600;
-			color: white;
-			padding: 10px 40px;
-			border-radius: 10px;
-
-			&:hover {
-				box-shadow: $form_shadow;
-				transition: 0.5s;
-			}
+			display: flex;
+			justify-content: center;
 		}
 	}
 

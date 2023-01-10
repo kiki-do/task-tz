@@ -1,0 +1,48 @@
+@import "/src/assets/style/palette.scss";
+
+.wrapper {
+	&.short {
+		background: $form_button;
+		border: 0;
+		outline: 0;
+		padding: 10px 20px;
+		border-radius: 5px;
+
+		&:active {
+			box-shadow: none;
+		}
+	}
+
+	&.long {
+		border: 0;
+		outline: 0;
+		background-color: $form_button;
+		font-size: 15px;
+		font-weight: 600;
+		color: white;
+		padding: 10px 40px;
+		border-radius: 10px;
+
+		&:disabled {
+			background-color: $button_disabled;
+			color: $list_name;
+			box-shadow: none;
+			cursor: default;
+		}
+	}
+
+	&.short,
+	&.long {
+		&:hover {
+			box-shadow: $form_shadow;
+			cursor: pointer;
+			transition: 0.5s;
+		}
+	}
+
+	.text {
+		color: $white;
+		font-size: 15px;
+		font-weight: 600;
+	}
+}

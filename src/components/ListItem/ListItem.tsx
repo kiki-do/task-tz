@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { Button } from "../../assets/components/Button/Button";
 import classes from "./ListItem.module.scss";
 
 export interface ListItemProps {
@@ -39,12 +40,13 @@ export const ListItem: ListItemComponent = ({
 			</div>
 			<span className={classes.hobby}>{hobby || "Не указано"}</span>
 			<div className={classes.buttons}>
-				<button className={classes.button} onClick={onToggle}>
+				<Button className={classes.button} onClick={onToggle}>
 					Edit
-				</button>
-				<button className={classes.button} onClick={onRemove}>
+				</Button>
+
+				<Button className={classes.button} onClick={onRemove}>
 					Delete
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

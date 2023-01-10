@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 import classes from "./AuthForm.module.scss";
 import { fetchAuth } from "../../store/thunk/authThunk";
 import { List } from "../List/List";
+import { Button } from "../../assets/components/Button/Button";
 
 export interface AuthFormProps {
 	login?: string;
@@ -76,7 +77,8 @@ export const AuthForm: AuthFormComponent = ({
 						/>
 					</div>
 					{error && <div className={classes.validate}>{error}</div>}
-					<button className={classes.button}>Войти</button>
+
+					<Button>Войти</Button>
 				</form>
 			</div>
 		</div>

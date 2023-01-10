@@ -22,27 +22,9 @@
 	.button {
 		position: absolute;
 		margin-left: 150px;
-		background: $form_button;
-		border: 0;
-		outline: 0;
-		padding: 10px 20px;
-		color: $white;
-		border-radius: 5px;
-		font-size: 15px;
-		font-weight: 600;
 
 		&:last-child {
 			margin-top: 30px;
-		}
-
-		&:hover {
-			box-shadow: $form_shadow;
-			cursor: pointer;
-			transition: 0.5s all ease;
-		}
-
-		&:active {
-			box-shadow: none;
 		}
 	}
 	.content {

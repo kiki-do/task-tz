@@ -86,6 +86,7 @@ export const Edit: EditComponent = ({
 					surname: constSurname,
 					hobby: constHobby,
 					isOpen: false,
+					fullname: constName + " " + constSurname,
 				})
 			);
 			setEditName("");

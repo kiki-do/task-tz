@@ -9,18 +9,25 @@ import { useAppDispatch } from "../../assets/hooks/useAppDispatch";
 
 import classes from "./List.module.scss";
 import { fetchItems } from "../../store/thunk/itemsThunk";
-import { openModal, removeUser } from "../../store/itemsSlice/slice";
+import { openModal, removeUser, setSearch } from "../../store/itemsSlice/slice";
 import { Edit } from "../Edit/Edit";
 import { AddUser } from "../AddUser/AddUser";
+import { Search } from "../Search/Search";
 
 export const List = () => {
-	const items = useAppSelector(itemsSelector);
+	const { items, search, status } = useAppSelector(itemsSelector);
 	const dispatch = useAppDispatch();
 
 	// Переиспользуемое состояние
 	const [nameError, setNameError] = useState<string>("");
 	const [surnameError, setSurnameError] = useState<string>("");
 	const [hobbyError, setHobbyError] = useState<string>("");
+
+	const [searchValue, setSearchValue] = useState<string>("");
+
+	const searchHandle = (str: string) => {
+		dispatch(setSearch(str));
+	};
 
 	useEffect(() => {
 		return () => {
@@ -36,11 +43,24 @@ export const List = () => {
 
 	return (
 		<div className={classes.wrapper}>
-			<h2 className={classes.title}>Список контактов</h2>
+			<div>
+				<h2 className={classes.title}>Список контактов</h2>
+				<Search
+					search={search}
+					searchValue={searchValue}
+					setSearchValue={setSearchValue}
+					searchHandle={searchHandle}
+				/>
+			</div>
 			<div className={classes.content}>
 				{items &&
-					items.map(
-						({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
+					items
+						.filter(
+							(item: ItemsType) =>
+								item.fullname.toLowerCase().includes(search.toLowerCase()) ||
+								item.hobby.toLowerCase().includes(search.toLowerCase())
+						)
+						.map(({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
 							<div key={id}>
 								<ListItem
 									id={id}
@@ -66,8 +86,7 @@ export const List = () => {
 									setHobbyError={setHobbyError}
 								/>
 							</div>
-						)
-					)}
+						))}
 			</div>
 			<AddUser
 				nameError={nameError}

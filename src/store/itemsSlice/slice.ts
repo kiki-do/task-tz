@@ -6,6 +6,7 @@ import { fetchItems } from "../thunk/itemsThunk";
 const initialState: IItems = {
 	items: [],
 	status: "loading",
+	search: "",
 };
 
 export const itemsSlice = createSlice({
@@ -25,7 +26,10 @@ export const itemsSlice = createSlice({
 		updateUser: (
 			state,
 			action: PayloadAction<
-				Pick<ItemsType, "id" | "name" | "hobby" | "isOpen" | "surname">
+				Pick<
+					ItemsType,
+					"id" | "name" | "hobby" | "isOpen" | "surname" | "fullname"
+				>
 			>
 		) => {
 			state.items.map((item: ItemsType) => {
@@ -33,6 +37,7 @@ export const itemsSlice = createSlice({
 					item.name = action.payload.name;
 					item.surname = action.payload.surname;
 					item.hobby = action.payload.hobby;
+					item.fullname = action.payload.fullname;
 					item.isOpen = !item.isOpen;
 				}
 			});
@@ -45,6 +50,10 @@ export const itemsSlice = createSlice({
 			if (index) {
 				index.isOpen = !index.isOpen;
 			}
+		},
+
+		setSearch: (state, action: PayloadAction<string>) => {
+			state.search = action.payload;
 		},
 	},
 
@@ -68,7 +77,7 @@ export const itemsSlice = createSlice({
 	},
 });
 
-export const { addUser, removeUser, updateUser, openModal } =
+export const { addUser, removeUser, updateUser, openModal, setSearch } =
 	itemsSlice.actions;
 
 export default itemsSlice.reducer;

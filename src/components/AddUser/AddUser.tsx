@@ -52,6 +52,7 @@ export const AddUser: AddUserComponent = ({
 					isOpen: false,
 					avatar:
 						"https://raw.githubusercontent.com/kiki-do/authapi/4c2b43efc3dd298594c32a183456db73d485f59c/avatar.png",
+					fullname: newName + " " + newSurname,
 				})
 			);
 

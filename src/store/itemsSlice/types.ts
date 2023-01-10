@@ -1,6 +1,7 @@
 export interface IItems {
 	items: ItemsType[];
 	status: string;
+	search: string;
 }
 
 export type ItemsType = {
@@ -10,4 +11,5 @@ export type ItemsType = {
 	surname: string;
 	hobby: string;
 	isOpen: boolean;
+	fullname: string;
 };

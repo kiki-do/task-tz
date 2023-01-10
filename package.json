@@ -6,6 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
+		"deploy": "gh-pages -d build",
+		"predeploy": "npm run build",
 		"preview": "vite preview"
 	},
 	"dependencies": {

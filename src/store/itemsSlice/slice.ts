@@ -2,10 +2,10 @@ import type { IItems, ItemsType } from "./types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchItems } from "../thunk/itemsThunk";
-import { getCartFromLS } from "../../assets/components/getItemFromLS/getItemFromLS";
+import { getItemsFromLS } from "../../assets/components/getItemFromLS/getItemFromLS";
 
 const initialState: IItems = {
-	items: getCartFromLS(),
+	items: getItemsFromLS(),
 	status: "success",
 	search: "",
 };

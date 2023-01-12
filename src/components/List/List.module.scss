@@ -2,15 +2,22 @@
 
 .wrapper {
 	position: relative;
-	
+
+	.empty {
+		color: $list-title;
+		margin-top: 40px;
+		font-weight: 600;
+		font-size: 30px;
+	}
+
 	.header {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 	.content {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		display: flex;
+		flex-wrap: wrap;
 		gap: 40px;
 		justify-content: center;
 		align-self: center;

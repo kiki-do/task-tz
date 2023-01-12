@@ -20,12 +20,10 @@ import { Skeleton } from "../../assets/components/Skeleton/Skeleton";
 export const List: FC = () => {
 	const { items, status }: IItems = useAppSelector(itemsSelector);
 
-	// const items = useAppSelector(state => state.persistedReducer.items);
-	// const status: string = useAppSelector(itemsSelector);
 	const search = useAppSelector(searchSelector);
 	const dispatch = useAppDispatch();
-
 	const isMounted = useRef(false);
+
 	// Переиспользуемое состояние
 	const [nameError, setNameError] = useState<string>("");
 	const [surnameError, setSurnameError] = useState<string>("");
@@ -69,46 +67,46 @@ export const List: FC = () => {
 				/>
 			</div>
 			<div className={classes.content}>
-				{items && status === "loading"
-					? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-					: items
-							.filter(
-								(item: ItemsType) =>
-									item.fullname
-										.toLowerCase()
-										.includes(searchValue.toLowerCase()) ||
-									item.hobby.toLowerCase().includes(searchValue.toLowerCase())
-							)
-							.map(
-								({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
-									<div key={id}>
-										<ListItem
-											id={id}
-											name={name}
-											avatar={avatar}
-											hobby={hobby}
-											surname={surname}
-											removeHandle={removeHandle}
-											toggleIsOpen={toggleIsOpen}
-										/>
+				{items.length === 0 ? (
+					<div className={classes.empty}>К сожалению, у вас не друзей 😭</div>
+				) : (
+					items
+						.filter(
+							(item: ItemsType) =>
+								item.fullname
+									.toLowerCase()
+									.includes(searchValue.toLowerCase()) ||
+								item.hobby.toLowerCase().includes(searchValue.toLowerCase())
+						)
+						.map(({ name, id, avatar, hobby, surname, isOpen }: ItemsType) => (
+							<div key={id}>
+								<ListItem
+									id={id}
+									name={name}
+									avatar={avatar}
+									hobby={hobby}
+									surname={surname}
+									removeHandle={removeHandle}
+									toggleIsOpen={toggleIsOpen}
+								/>
 
-										<Edit
-											id={id}
-											name={name}
-											surname={surname}
-											hobby={hobby}
-											isOpen={isOpen}
-											toggleIsOpen={toggleIsOpen}
-											nameError={nameError}
-											surnameError={surnameError}
-											hobbyError={hobbyError}
-											setNameError={setNameError}
-											setSurnameError={setSurnameError}
-											setHobbyError={setHobbyError}
-										/>
-									</div>
-								)
-							)}
+								<Edit
+									id={id}
+									name={name}
+									surname={surname}
+									hobby={hobby}
+									isOpen={isOpen}
+									toggleIsOpen={toggleIsOpen}
+									nameError={nameError}
+									surnameError={surnameError}
+									hobbyError={hobbyError}
+									setNameError={setNameError}
+									setSurnameError={setSurnameError}
+									setHobbyError={setHobbyError}
+								/>
+							</div>
+						))
+				)}
 			</div>
 			<AddUser
 				nameError={nameError}

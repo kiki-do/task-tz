@@ -1,4 +1,3 @@
-import { AuthItems } from "./../authSlice/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
